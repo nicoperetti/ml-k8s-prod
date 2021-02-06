@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-deployment
+  labels:
+    app: titanic
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: titanic
+  template:
+    metadata:
+      labels:
+        app: titanic
+    spec:
+      containers:
+      - name: pod-titanic
+        image: titanic:dev
+        imagePullPolicy: Never
+        command: ["uvicorn", "app.main:app", "--reload", "--port" ,"5000", "--host", "0.0.0.0"]
+        ports:
+        - containerPort: 5000
